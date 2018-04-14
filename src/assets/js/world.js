@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import { noise } from '@/assets/js/perlin'
 
-let world = (function () {
-  let self = {} // export container
+const world = (function () {
+  const self = {} // export container
 
   // Dimensions of the grid
-  let width = 256
-  let height = 64
+  const width = 256
+  const height = 64
 
   // Global variables
   let container,
@@ -14,7 +14,7 @@ let world = (function () {
       camera,
       renderer,
       geometry,
-      time
+      clock
 
   // Helper for grabbing element to append to DOM
   self.getDomElement = function () {
@@ -25,7 +25,7 @@ let world = (function () {
   self.build = function (window, document, id) {
     // Init Perlin noise
     noise.seed(Math.random())
-    time = 0
+    clock = new THREE.Clock()
 
     // save container reference for later
     container = document.getElementById(id)
@@ -92,12 +92,12 @@ let world = (function () {
 
   // Logic applied every frame
   self.render = function () {
-    time++
+    let time = clock.getElapsedTime()
 
     // Iterate over each vertex getting the x and y offsets
     for (let y = 0; y <= height; y++) {
       for (let x = 0; x <= width; x++) {
-          geometry.vertices[x + (y * (width + 1))].y = self.height(x, y, time / 20.0, 0.5, 2) * 15.0
+          geometry.vertices[x + (y * (width + 1))].y = self.height(x, y, time, 0.5, 2) * 15.0
       }
     }
 

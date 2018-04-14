@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="height:100vh;width:100vw;">
-    <div class="container-fluid p-5 h-100">
+    <div class="container-fluid page-padding h-100">
       <router-view />
     </div>
   </div>
@@ -22,5 +22,19 @@
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 0 20px 1px $dark;
+    background-color: $dark;
+  }
+
+  .page-padding {
+    padding: 3rem;
+
+    @media only screen and (max-width: 740px) {
+      padding: 1rem;
+    }
+
+    @media only screen and (max-width: 400px) {
+      padding: 0.25rem;
+    }
   }
 </style>
