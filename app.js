@@ -9,4 +9,4 @@ app.use(helmet())
 // Listen to the dist folder
 app.use(express.static('dist'))
 
-app.listen(process.env.$PORT, () => console.log('JakeMitchell.xyz listening on port ' + process.env.$PORT + '!'))
+app.listen(process.env.PORT, () => console.log('JakeMitchell.xyz listening on port ' + process.env.PORT + '!'))
