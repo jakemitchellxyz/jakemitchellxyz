@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "start": "node app.js",
     "postinstall": "npm run build"
   },
   "dependencies": {
@@ -44,9 +45,7 @@
     "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"
   },
   "author": "Jake Mitchell",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/jakemitchellxyz/jakemitchellxyz/issues"
-  },
-  "homepage": "https://github.com/jakemitchellxyz/jakemitchellxyz#readme"
+  }
 }
