@@ -71,7 +71,8 @@ const world = (function () {
     // Create Points Material
     let point = new THREE.TextureLoader().load('/textures/disc.png')
     let material = new THREE.PointsMaterial({ size: 0.5, map: point, sizeAttenuation: true, alphaTest: 0.5, transparent: true, vertexColors: THREE.VertexColors })
-    for (let i = 0; i < geometry.vertices.length; i++) {
+    let i
+    for (i = 0; i < geometry.vertices.length; i++) {
       geometry.colors[i] = new THREE.Color(0xffffff)
     }
 
@@ -101,7 +102,8 @@ const world = (function () {
     let amplitude = 30.0
 
     // Build and layer each octave
-    for (let i = 0; i < octaves; i++) {
+    let i
+    for (i = 0; i < octaves; i++) {
         total += noise.perlin3(x * frequency, y * frequency, z * frequency) * amplitude
         normalize += amplitude
 
@@ -123,9 +125,10 @@ const world = (function () {
     brushColor.setRGB(r, g, b)
 
     // Iterate over each vertex getting the x and y offsets
-    for (let y = 0; y <= height; y++) {
-      for (let x = 0; x <= width; x++) {
-        let i = x + (y * (width + 1))
+    let x, y, i
+    for (y = 0; y <= height; y++) {
+      for (x = 0; x <= width; x++) {
+        i = x + (y * (width + 1))
         points.geometry.vertices[i].y = self.height(x, y, time, 0.5, 2) * 15.0
 
         // If this vertice's color is different, fade it to white
@@ -137,6 +140,7 @@ const world = (function () {
       }
     }
 
+    // Update Geometry Values
     points.geometry.verticesNeedUpdate = true
     points.geometry.colorsNeedUpdate = true
     points.geometry.computeBoundingBox()
@@ -160,8 +164,8 @@ const world = (function () {
   self.onMouseMove = function (event) {
     event.preventDefault()
 
-    let x, y
     // Capture mouse/touch location
+    let x, y
 		if (event.changedTouches) {
 			x = event.changedTouches[0].pageX
 			y = event.changedTouches[0].pageY
@@ -174,25 +178,43 @@ const world = (function () {
     mouse.x = (x / window.innerWidth) * 2 - 1
     mouse.y = -(y / window.innerHeight) * 2 + 1
 
+    // Update Raycaster
     raycaster.setFromCamera(mouse, camera)
 
+    // Handle intersections
 		intersectedPoints = raycaster.intersectObjects([ points ])
     if (intersectedPoints.length > 0) self.paint()
   }
 
   // Draw color onto the points mesh
   self.paint = function () {
-    for (let i = 0; i < intersectedPoints.length; i++) {
-      let point = intersectedPoints[i].index
+    let point,
+        intensity,
+        nr, ng, nb,
+        r, g, b, i
+
+    // Iterate over collided vertices
+    for (i = 0; i < intersectedPoints.length; i++) {
+      point = intersectedPoints[i].index
+
       // Calculate an intensity based on distance for a fade area effect
-      let intensity = Math.max(0.5, intersectedPoints[i].distanceToRay / threshold) - 0.5
-  		points.geometry.colors[point].setRGB(Math.min(brushColor.r + intensity, 1.0),
-                                           Math.min(brushColor.g + intensity, 1.0),
-                                           Math.min(brushColor.b + intensity, 1.0))
+      intensity = Math.max(0, intersectedPoints[i].distanceToRay / threshold)
+      r = Math.min(brushColor.r + intensity, 1.0)
+      g = Math.min(brushColor.g + intensity, 1.0)
+      b = Math.min(brushColor.b + intensity, 1.0)
+
+      // Calculate new colors to set (to avoid whiting out colors we just set)
+      nr = Math.min(r, points.geometry.colors[point].r)
+      ng = Math.min(g, points.geometry.colors[point].g)
+      nb = Math.min(b, points.geometry.colors[point].b)
+
+      // Update point color
+  		points.geometry.colors[point].setRGB(nr, ng, nb)
     }
   }
 
   return self
 })()
 
+// Export Module
 export default world
