@@ -7,13 +7,19 @@ const world = (function () {
   // Dimensions of the grid
   const width = 256
   const height = 64
+  const threshold = 3
 
   // Global variables
-  let container,
+  let window,
+      container,
       scene,
       camera,
       renderer,
-      geometry,
+      raycaster,
+      mouse,
+      intersectedPoints,
+      brushColor,
+      points,
       clock
 
   // Helper for grabbing element to append to DOM
@@ -22,12 +28,13 @@ const world = (function () {
   }
 
   // Build the Three.js Instance
-  self.build = function (window, document, id) {
+  self.build = function (win, document, id) {
     // Init Perlin noise
     noise.seed(Math.random())
     clock = new THREE.Clock()
 
     // save container reference for later
+    window = win
     container = document.getElementById(id)
 
     // Init Scene
@@ -46,28 +53,43 @@ const world = (function () {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(container.offsetWidth, container.offsetHeight)
 
+    // Setup Raycaster
+    mouse = new THREE.Vector2()
+    raycaster = new THREE.Raycaster()
+		raycaster.params.Points.threshold = threshold
+
     self.populate()
-    self.append(window)
+    self.append()
   }
 
   // Draw the objects into our world
   self.populate = function () {
     // Create Plane
-    geometry = new THREE.PlaneGeometry(width*1.25, height*1.25, width, height)
+    let geometry = new THREE.PlaneGeometry(width*1.25, height*1.25, width, height)
     geometry.rotateX(Math.PI / 2)
 
     // Create Points Material
-    let texture = new THREE.TextureLoader().load('/textures/disc.png')
-    let material = new THREE.PointsMaterial({ size: 0.5, map: texture, sizeAttenuation: true, alphaTest: 0.5, transparent: true })
-    material.color.setHSL(1.0, 1.0, 1.0)
+    let point = new THREE.TextureLoader().load('/textures/disc.png')
+    let material = new THREE.PointsMaterial({ size: 0.5, map: point, sizeAttenuation: true, alphaTest: 0.5, transparent: true, vertexColors: THREE.VertexColors })
+    for (let i = 0; i < geometry.vertices.length; i++) {
+      geometry.colors[i] = new THREE.Color(0xffffff)
+    }
+
+    // Create brush material for painting
+		brushColor = new THREE.Color(0xffffff)
 
     // Add Points Mesh to Scene
-    let points = new THREE.Points(geometry, material)
+    points = new THREE.Points(geometry, material)
     scene.add(points)
   }
 
   // Append to document and setup responsive behaviour
-  self.append = function (window) {
+  self.append = function () {
+    // Add Mouse listeners
+    window.addEventListener('mousemove', self.onMouseMove)
+    window.addEventListener('touchmove', self.onMouseMove)
+
+    // Append THREE.js to our document
     container.appendChild(self.getDomElement())
     window.addEventListener('resize', self.onWindowResize)
   }
@@ -94,14 +116,30 @@ const world = (function () {
   self.render = function () {
     let time = clock.getElapsedTime()
 
+    // Oscillate brush color for fun rainbow effect
+    let r = (Math.sin(time * 0.6 + 0) * 127 + 128) / 255.0
+    let g = (Math.sin(time * 0.6 + 2) * 127 + 128) / 255.0
+    let b = (Math.sin(time * 0.6 + 4) * 127 + 128) / 255.0
+    brushColor.setRGB(r, g, b)
+
     // Iterate over each vertex getting the x and y offsets
     for (let y = 0; y <= height; y++) {
       for (let x = 0; x <= width; x++) {
-          geometry.vertices[x + (y * (width + 1))].y = self.height(x, y, time, 0.5, 2) * 15.0
+        let i = x + (y * (width + 1))
+        points.geometry.vertices[i].y = self.height(x, y, time, 0.5, 2) * 15.0
+
+        // If this vertice's color is different, fade it to white
+        if (points.geometry.colors[i].r < 1.0 || points.geometry.colors[i].g < 1.0 || points.geometry.colors[i].b < 1.0) {
+          points.geometry.colors[i].r = Math.min(1.0, points.geometry.colors[i].r + 0.01)
+          points.geometry.colors[i].g = Math.min(1.0, points.geometry.colors[i].g + 0.01)
+          points.geometry.colors[i].b = Math.min(1.0, points.geometry.colors[i].b + 0.01)
+        }
       }
     }
 
-    geometry.verticesNeedUpdate = true
+    points.geometry.verticesNeedUpdate = true
+    points.geometry.colorsNeedUpdate = true
+    points.geometry.computeBoundingBox()
   }
 
   // Method called each frame
@@ -116,6 +154,42 @@ const world = (function () {
   	camera.aspect = container.offsetWidth / container.offsetHeight
     camera.updateProjectionMatrix()
   	renderer.setSize(container.offsetWidth, container.offsetHeight)
+  }
+
+  // Handle mouse movement for painting color
+  self.onMouseMove = function (event) {
+    event.preventDefault()
+
+    let x, y
+    // Capture mouse/touch location
+		if (event.changedTouches) {
+			x = event.changedTouches[0].pageX
+			y = event.changedTouches[0].pageY
+		} else {
+			x = event.clientX
+			y = event.clientY
+		}
+
+    // Save location to mouse object
+    mouse.x = (x / window.innerWidth) * 2 - 1
+    mouse.y = -(y / window.innerHeight) * 2 + 1
+
+    raycaster.setFromCamera(mouse, camera)
+
+		intersectedPoints = raycaster.intersectObjects([ points ])
+    if (intersectedPoints.length > 0) self.paint()
+  }
+
+  // Draw color onto the points mesh
+  self.paint = function () {
+    for (let i = 0; i < intersectedPoints.length; i++) {
+      let point = intersectedPoints[i].index
+      // Calculate an intensity based on distance for a fade area effect
+      let intensity = Math.max(0.5, intersectedPoints[i].distanceToRay / threshold) - 0.5
+  		points.geometry.colors[point].setRGB(Math.min(brushColor.r + intensity, 1.0),
+                                           Math.min(brushColor.g + intensity, 1.0),
+                                           Math.min(brushColor.b + intensity, 1.0))
+    }
   }
 
   return self
