@@ -14,7 +14,7 @@
     </div>
 
     <!-- Footer/Navigation -->
-    <div id="nav-wrapper" class="mr-5 mb-3 p-2 rounded-circle">
+    <div id="nav-wrapper" class="mr-5 mb-3">
       <Navigation />
     </div>
   </div>
@@ -25,7 +25,7 @@ import Three from '@/components/Three.vue'
 import Navigation from '@/components/Navigation.vue'
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     Three,
     Navigation
@@ -57,6 +57,16 @@ export default {
     z-index: 20;
     right: 0;
     bottom: 0;
-    background-color: $dark;
+
+    .btn-bg {
+      background-color: $dark;
+
+      &.umr-3 {
+        margin-right: -1rem;
+      }
+      &.umr-2 {
+        margin-right: -0.5rem;
+      }
+    }
   }
 </style>
