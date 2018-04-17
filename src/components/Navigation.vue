@@ -33,6 +33,10 @@
     name: 'Navigation',
     mounted() {
       $('[data-toggle="tooltip"]').tooltip()
+    },
+    beforeDestroy() {
+      $('[data-toggle="tooltip"]').tooltip('dispose')
+      $('[role="tooltip"]').remove()
     }
   }
 </script>

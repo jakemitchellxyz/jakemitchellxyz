@@ -8,7 +8,14 @@
 
 <script>
   export default {
-    name: 'App'
+    name: 'App',
+    // watch: {
+    //   '$route' (to, from) {
+    //     const toDepth = to.path.split('/').length
+    //     const fromDepth = from.path.split('/').length
+    //     this.pageTransition = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+    //   }
+    // }
   }
 </script>
 

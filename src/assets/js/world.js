@@ -65,12 +65,14 @@ const world = (function () {
   // Draw the objects into our world
   self.populate = function () {
     // Create Plane
-    let geometry = new THREE.PlaneGeometry(width*1.25, height*1.25, width, height)
+    const geometry = new THREE.PlaneGeometry(width*1.25, height*1.25, width, height)
     geometry.rotateX(Math.PI / 2)
 
     // Create Points Material
-    let point = new THREE.TextureLoader().load('/textures/disc.png')
-    let material = new THREE.PointsMaterial({ size: 0.5, map: point, sizeAttenuation: true, alphaTest: 0.5, transparent: true, vertexColors: THREE.VertexColors })
+    const point = new THREE.TextureLoader().load('/textures/disc.png')
+    const material = new THREE.PointsMaterial({ size: 0.5, map: point, sizeAttenuation: true, alphaTest: 0.5, transparent: true, vertexColors: THREE.VertexColors })
+
+    // Create vertex independent colors
     let i
     for (i = 0; i < geometry.vertices.length; i++) {
       geometry.colors[i] = new THREE.Color(0xffffff)
@@ -116,12 +118,12 @@ const world = (function () {
 
   // Logic applied every frame
   self.render = function () {
-    let time = clock.getElapsedTime()
+    const time = clock.getElapsedTime()
 
     // Oscillate brush color for fun rainbow effect
-    let r = (Math.sin(time * 0.6 + 0) * 127 + 128) / 255.0
-    let g = (Math.sin(time * 0.6 + 2) * 127 + 128) / 255.0
-    let b = (Math.sin(time * 0.6 + 4) * 127 + 128) / 255.0
+    const r = (Math.sin(time * 0.6 + 0) * 127 + 128) / 255.0
+    const g = (Math.sin(time * 0.6 + 2) * 127 + 128) / 255.0
+    const b = (Math.sin(time * 0.6 + 4) * 127 + 128) / 255.0
     brushColor.setRGB(r, g, b)
 
     // Iterate over each vertex getting the x and y offsets
@@ -186,7 +188,7 @@ const world = (function () {
     if (intersectedPoints.length > 0) self.paint()
   }
 
-  // Draw color onto the points mesh
+  // Draw ~additive~ color onto the points mesh
   self.paint = function () {
     let point,
         intensity,
