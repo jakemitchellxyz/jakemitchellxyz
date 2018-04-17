@@ -1,5 +1,6 @@
 <template>
-  <div class="page h-100">
+  <div class="page home">
+    <!-- Cool WebGL Scene -->
     <Three />
 
     <!-- Title Section -->
@@ -13,10 +14,8 @@
       <h2 class="lead muted mt-2">Developer&nbsp;&nbsp;//&nbsp;&nbsp;Hacker&nbsp;&nbsp;//&nbsp;&nbsp;Artist</h2>
     </div>
 
-    <!-- Footer/Navigation -->
-    <div id="nav-wrapper" class="mr-5 mb-3">
-      <Navigation />
-    </div>
+    <!-- Navigation -->
+    <Navigation />
   </div>
 </template>
 
@@ -34,8 +33,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "../assets/scss/variables";
-
   #title {
     position: absolute;
     z-index: 10;
@@ -49,24 +46,6 @@ export default {
 
     .muted {
       color: rgba(255,255,255,0.8);
-    }
-  }
-
-  #nav-wrapper {
-    position: absolute;
-    z-index: 20;
-    right: 0;
-    bottom: 0;
-
-    .btn-bg {
-      background-color: $dark;
-
-      &.umr-3 {
-        margin-right: -1rem;
-      }
-      &.umr-2 {
-        margin-right: -0.5rem;
-      }
     }
   }
 </style>

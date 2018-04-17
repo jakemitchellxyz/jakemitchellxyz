@@ -1,0 +1,23 @@
+.nav-wrapper {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  bottom: 0;
+  margin-right: 3rem;
+  margin-bottom: 1rem;
+
+  .btn-bg {
+    background-color: $dark;
+
+    &.umr-3 {
+      margin-right: -1rem;
+    }
+    &.umr-2 {
+      margin-right: -0.5rem;
+    }
+  }
+
+  @media only screen and (max-width: 740px) {
+    margin-right: 1rem;
+  }
+}

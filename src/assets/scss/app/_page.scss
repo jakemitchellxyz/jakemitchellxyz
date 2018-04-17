@@ -1,0 +1,29 @@
+.page-padding {
+  padding: 3rem;
+
+  .page {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &.home {
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: $dark;
+      box-shadow: 0 0 20px 1px $dark;
+    }
+  }
+
+  &, .page {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  @media only screen and (max-width: 740px) {
+    padding: 1rem;
+  }
+
+  @media only screen and (max-width: 400px) {
+    padding: 0.25rem;
+  }
+}

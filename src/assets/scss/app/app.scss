@@ -1,0 +1,10 @@
+// Custom Variables
+@import "variables";
+
+// Modify app-wide stuff (html,body,etc.)
+@import "globals";
+
+// Style Modules
+@import "page";
+@import "nav";
+@import "animations";
