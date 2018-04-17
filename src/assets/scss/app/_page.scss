@@ -5,6 +5,11 @@
     overflow-y: auto;
     overflow-x: hidden;
 
+    .container {
+      height: 100%;
+      position: relative;
+    }
+
     &.home {
       overflow: hidden;
       border-radius: 8px;
