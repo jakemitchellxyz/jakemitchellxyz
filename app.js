@@ -1,4 +1,6 @@
 const sqreen = require('sqreen') // App Security Monitoring Plugin
+const newrelic = require('newrelic') // App Performance Monitoring Plugin
+
 const express = require('express')
 const helmet = require('helmet')
 const compression = require('compression')
