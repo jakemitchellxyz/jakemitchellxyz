@@ -12,7 +12,8 @@
       </div>
 
       <div class="btn-bg rounded-circle p-2 pr-3 umr-3 d-inline-block">
-        <router-link :to="{ name: 'blog' }" class="btn btn-outline-light rounded-circle" data-toggle="tooltip" title="Blog"><span class="ion-android-list"></span></router-link>
+        <a href="https://medium.com/@jakemitchellxyz" target="_blank" data-toggle="tooltip" title="Blog"
+           class="btn btn-outline-light rounded-circle" rel="noopener"><span class="ion-android-list"></span></a>
       </div>
 
       <div class="btn-bg rounded-circle p-2 pl-3 d-inline-block dropup">
