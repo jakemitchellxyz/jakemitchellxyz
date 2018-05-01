@@ -5,17 +5,7 @@
 </template>
 
 <script>
-  import $ from 'jquery'
-  import 'bootstrap'
-
   export default {
     name: 'HomeButton',
-    mounted() {
-      $('[data-toggle="tooltip"]').tooltip()
-    },
-    beforeDestroy() {
-      $('[data-toggle="tooltip"]').tooltip('dispose')
-      $('[role="tooltip"]').remove()
-    }
   }
 </script>
