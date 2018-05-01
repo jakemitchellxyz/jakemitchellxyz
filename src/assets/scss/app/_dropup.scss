@@ -1,0 +1,37 @@
+.dropup {
+  position: relative;
+
+  .dropup-menu {
+    position: absolute;
+    padding: 0.5rem 0;
+    margin: 0;
+
+    right: 0;
+    bottom: 100%;
+    min-width: 50%;
+
+    text-align: right;
+    font-size: 1rem;
+    color: $dark;
+
+    background-color: $light;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+  }
+
+  .dropup-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem 0.25rem 2rem;
+    font-weight: 400;
+    color: $dark;
+    text-align: inherit;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:hover {
+      background: linear-gradient(to right, darken($light, 2%), darken($light, 5%))
+    }
+  }
+}

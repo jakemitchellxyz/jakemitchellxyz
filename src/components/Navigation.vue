@@ -1,45 +1,90 @@
 <template>
   <div class="nav-wrapper">
-    <nav id="nav">
-      <div class="btn-bg rounded-circle p-2 umr-2 d-inline-block">
-        <a href="https://github.com/jakemitchellxyz" target="_blank" data-toggle="tooltip" title="Github"
-           class="btn btn-outline-light rounded-circle" rel="noopener"><span class="ion-social-github"></span></a>
+    <nav id="nav" class="dropup" @mouseleave="hideDropup()">
+      <!-- Github Link -->
+      <div class="nav-btn rounded-circle p-2 umr-2">
+        <a href="https://github.com/jakemitchellxyz" target="_blank" data-toggle="tooltip"
+           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('github')" @mouseleave="hideTooltip('github')">
+          <span class="ion-social-github"></span>
+        </a>
+        <!-- Hover Tooltip -->
+        <transition name="tooltip-github" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
+          <div v-show="tooltips.github" class="tooltip animated-fast">
+            Github
+            <div class="arrow"></div>
+          </div>
+        </transition>
       </div>
 
-      <div class="btn-bg rounded-circle p-2 pr-3 umr-3 d-inline-block">
-        <a href="https://www.instagram.com/jakemitchell.xyz/" target="_blank" data-toggle="tooltip" title="Instagram"
-           class="btn btn-outline-light rounded-circle" rel="noopener"><span class="ion-social-instagram-outline"></span></a>
+      <!-- Instagram Link -->
+      <div class="nav-btn rounded-circle p-2 pr-3 umr-3">
+        <a href="https://www.instagram.com/jakemitchell.xyz/" target="_blank" data-toggle="tooltip"
+           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('instagram')" @mouseleave="hideTooltip('instagram')">
+          <span class="ion-social-instagram-outline"></span>
+        </a>
+        <!-- Hover Tooltip -->
+        <transition name="tooltip-instagram" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
+          <div v-show="tooltips.instagram" class="tooltip animated-fast">
+            Instagram
+            <div class="arrow"></div>
+          </div>
+        </transition>
       </div>
 
-      <div class="btn-bg rounded-circle p-2 pr-3 umr-3 d-inline-block">
-        <a href="https://medium.com/@jakemitchellxyz" target="_blank" data-toggle="tooltip" title="Blog"
-           class="btn btn-outline-light rounded-circle" rel="noopener"><span class="ion-android-list"></span></a>
+      <!-- Medium Link -->
+      <div class="nav-btn rounded-circle p-2 pr-3 umr-3">
+        <a href="https://medium.com/@jakemitchellxyz" target="_blank" data-toggle="tooltip"
+           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('medium')" @mouseleave="hideTooltip('medium')">
+          <span class="ion-android-list"></span>
+        </a>
+        <!-- Hover Tooltip -->
+        <transition name="tooltip-medium" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
+          <div v-show="tooltips.medium" class="tooltip animated-fast">
+            Medium
+            <div class="arrow"></div>
+          </div>
+        </transition>
       </div>
 
-      <div class="btn-bg rounded-circle p-2 pl-3 d-inline-block dropup">
-        <button type="button" class="btn btn-outline-light rounded-circle" id="menuDropup" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-vertical"></span></button>
-        <div class="dropdown-menu dropdown-menu-right mb-3 text-right" aria-labelledby="menuDropup">
-          <router-link :to="{ name: 'about' }" class="dropdown-item">About</router-link>
-          <router-link :to="{ name: 'resume' }" class="dropdown-item">Resume</router-link>
-          <router-link :to="{ name: 'contact' }" class="dropdown-item">Contact</router-link>
-        </div>
+      <!-- More Popup -->
+      <div class="btn-bg rounded-circle p-2 pl-3 d-inline-block">
+        <button type="button" class="btn btn-outline-light rounded-circle" @mouseenter="showDropup()" @click="showDropup()">
+          <span class="ion-android-more-vertical"></span>
+        </button>
+
+        <!-- Page Links -->
+        <transition name="dropup" enter-active-class="fadeGrowUpLeft" leave-active-class="fadeShrinkDownRight">
+          <div v-show="showingDropup" class="dropup-menu animated-fast">
+            <router-link :to="{ name: 'about' }" class="dropup-item">About</router-link>
+            <router-link :to="{ name: 'resume' }" class="dropup-item">Resume</router-link>
+            <router-link :to="{ name: 'contact' }" class="dropup-item">Contact</router-link>
+          </div>
+        </transition>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
-  import $ from 'jquery'
-  import 'bootstrap'
-
   export default {
     name: 'Navigation',
-    mounted() {
-      $('[data-toggle="tooltip"]').tooltip()
+    data() {
+      return {
+        showingDropup: false,
+        tooltips: {
+          github: false,
+          instagram: false,
+          medium: false
+        }
+      }
     },
-    beforeDestroy() {
-      $('[data-toggle="tooltip"]').tooltip('dispose')
-      $('[role="tooltip"]').remove()
+    methods: {
+      // Change visibility of a tooltip
+      showTooltip(tt) { this.tooltips[tt] = true; this.hideDropup() },
+      hideTooltip(tt) { this.tooltips[tt] = false },
+      // Change the visibility of the dropup
+      showDropup() { this.showingDropup = true },
+      hideDropup() { this.showingDropup = false }
     }
   }
 </script>

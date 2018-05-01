@@ -1,0 +1,60 @@
+// All
+.p-2 {
+  padding: 0.5rem;
+}
+
+// Top
+.pt-5 {
+  padding-top: 3rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+// Right
+.pr-3 {
+  padding-right: 1rem;
+}
+
+// Bottom
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+// Left
+.pl-3 {
+  padding-left: 1rem;
+}
+
+// Negative Margin
+.umr-2 {
+  margin-right: -0.5rem;
+}
+.umr-3 {
+  margin-right: -1rem;
+}
+
+
+// Display
+.d-flex {
+  display: flex !important;
+}
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.align-items-center {
+  align-items: center;
+}
+.justify-content-center {
+  justify-content: center;
+}
+
+// Misc
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.on-top {
+  z-index: 10000;
+}

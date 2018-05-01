@@ -1,9 +1,73 @@
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
-.fade-enter, .fade-enter-active {
-  top: -100%;
+
+.animated-fast {
+  animation-duration: 0.25s;
+  animation-fill-mode: both;
 }
-.fade-enter, .fade-leave-to {
-  opacity: 0;
+
+// Animations for Tooltips
+@keyframes fadeGrowUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50%, 0) scale(0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+}
+
+.fadeGrowUp {
+  animation-name: fadeGrowUp;
+}
+
+@keyframes fadeShrinkDown {
+ from {
+   opacity: 1;
+ }
+
+ to {
+   opacity: 0;
+   transform: translate3d(0, 50%, 0) scale(0, 0);
+ }
+}
+
+.fadeShrinkDown {
+ animation-name: fadeShrinkDown;
+}
+
+// Animations for Dropup
+@keyframes fadeGrowUpLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(30%, 100%, 0) scale(0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+}
+
+.fadeGrowUpLeft {
+  animation-name: fadeGrowUpLeft;
+}
+
+@keyframes fadeShrinkDownRight {
+ from {
+   opacity: 1;
+ }
+
+ to {
+   opacity: 0;
+   transform: translate3d(30%, 100%, 0) scale(0, 0);
+ }
+}
+
+.fadeShrinkDownRight {
+ animation-name: fadeShrinkDownRight;
 }

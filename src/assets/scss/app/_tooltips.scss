@@ -1,0 +1,19 @@
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  bottom: 100%;
+  color: $dark;
+  background: $light;
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.5rem;
+  margin: 0;
+
+  .arrow {
+    position: absolute;
+    top: 100%;
+    left: calc(50% - 10px);
+    border-top: 7px solid $light;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+  }
+}

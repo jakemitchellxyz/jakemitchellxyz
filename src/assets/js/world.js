@@ -86,17 +86,6 @@ const world = (function () {
     scene.add(points)
   }
 
-  // Append to document and setup responsive behaviour
-  self.append = function () {
-    // Add Mouse listeners
-    window.addEventListener('mousemove', self.onMouseMove)
-    window.addEventListener('touchmove', self.onMouseMove)
-
-    // Append THREE.js to our document
-    container.appendChild(self.getDomElement())
-    window.addEventListener('resize', self.onWindowResize)
-  }
-
   self.height = function (x, y, z, persistence, octaves) {
     let total = 0.0
     let normalize = 0.0
@@ -153,6 +142,17 @@ const world = (function () {
     requestAnimationFrame(self.animate)
     self.render()
     renderer.render(scene, camera)
+  }
+
+  // Append to document and setup responsive behaviour
+  self.append = function () {
+    // Add listeners
+    window.addEventListener('mousemove', self.onMouseMove)
+    window.addEventListener('touchmove', self.onMouseMove)
+    window.addEventListener('resize', self.onWindowResize)
+
+    // Append THREE.js to our document
+    container.appendChild(self.getDomElement())
   }
 
   // Helper to resize view when window is resized
