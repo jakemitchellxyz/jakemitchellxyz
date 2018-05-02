@@ -1,5 +1,5 @@
 .animated {
-  animation-duration: 1s;
+  animation-duration: 2s;
   animation-fill-mode: both;
 }
 
@@ -70,4 +70,81 @@
 
 .fadeShrinkDownRight {
  animation-name: fadeShrinkDownRight;
+}
+
+/***********************************
+ * Animations for page transitions *
+ ***********************************/
+
+.slide-down-enter-active {
+  animation-name: slideDownGrow;
+}
+.slide-down-leave-active {
+  animation-name: shrinkSlideDown;
+}
+.slide-up-enter-active {
+  animation-name: slideUpGrow;
+}
+.slide-up-leave-active {
+  animation-name: shrinkSlideUp;
+}
+
+@keyframes slideDownGrow {
+ from,
+ 30% {
+   transform: translate3d(0, -100%, 0) scale(0.7, 0.7);
+ }
+
+ 70% {
+   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+ }
+
+ to {
+   transform: translate3d(0, 0, 0) scale(1, 1);
+ }
+}
+
+@keyframes shrinkSlideDown {
+ from {
+   transform: translate3d(0, 0, 0) scale(1, 1);
+ }
+
+ 30% {
+   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+ }
+
+ 70%,
+ to {
+   transform: translate3d(0, 100%, 0) scale(0.7, 0.7);
+ }
+}
+
+@keyframes slideUpGrow {
+ from,
+ 30% {
+   transform: translate3d(0, 100%, 0) scale(0.7, 0.7);
+ }
+
+ 70% {
+   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+ }
+
+ to {
+   transform: translate3d(0, 0, 0) scale(1, 1);
+ }
+}
+
+@keyframes shrinkSlideUp {
+ from {
+   transform: translate3d(0, 0, 0) scale(1, 1);
+ }
+
+ 30% {
+   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+ }
+
+ 70%,
+ to {
+   transform: translate3d(0, -100%, 0) scale(0.7, 0.7);
+ }
 }

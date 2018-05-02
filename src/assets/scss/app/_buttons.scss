@@ -43,6 +43,19 @@
   }
 }
 
+.btn-outline-dark {
+  color: $dark;
+  background-color: transparent;
+  background-image: none;
+  border-color: $dark;
+
+  &:hover, &:active {
+    color: $light;
+    background-color: $dark;
+    border-color: $dark;
+  }
+}
+
 .btn-bg {
   background-color: $dark;
 }

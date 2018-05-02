@@ -1,9 +1,11 @@
 <template>
-  <div class="page">
-    <div class="container">
-      <h1>Welcome to my Resume.</h1>
+  <div class="page-padding animated">
+    <div class="page">
+      <div class="container">
+        <h1>Welcome to my Resume.</h1>
 
-      <HomeButton />
+        <HomeButton />
+      </div>
     </div>
   </div>
 </template>

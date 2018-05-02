@@ -1,16 +1,28 @@
 <template>
   <div id="app">
-    <div class="page-padding">
-      <transition name="fade">
-        <router-view />
-      </transition>
-    </div>
+    <transition :name="slideDirection">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
   export default {
     name: 'App',
+    data() {
+      return {
+        slideDirection: 'slide-up'
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        if (to.name == 'home') {
+          this.slideDirection = 'slide-down'
+        } else {
+          this.slideDirection = 'slide-up'
+        }
+      }
+    }
   }
 </script>
 

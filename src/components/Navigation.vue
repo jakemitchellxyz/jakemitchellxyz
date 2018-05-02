@@ -2,9 +2,9 @@
   <div class="nav-wrapper">
     <nav id="nav" class="dropup" @mouseleave="hideDropup()">
       <!-- Github Link -->
-      <div class="nav-btn rounded-circle p-2 umr-2">
-        <a href="https://github.com/jakemitchellxyz" target="_blank" data-toggle="tooltip"
-           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('github')" @mouseleave="hideTooltip('github')">
+      <div class="nav-btn dark rounded-circle p-2 umr-2">
+        <a href="https://github.com/jakemitchellxyz" target="_blank" rel="noopener"
+           class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('github')" @mouseleave="hideTooltip('github')">
           <span class="ion-social-github"></span>
         </a>
         <!-- Hover Tooltip -->
@@ -17,9 +17,9 @@
       </div>
 
       <!-- Instagram Link -->
-      <div class="nav-btn rounded-circle p-2 pr-3 umr-3">
-        <a href="https://www.instagram.com/jakemitchell.xyz/" target="_blank" data-toggle="tooltip"
-           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('instagram')" @mouseleave="hideTooltip('instagram')">
+      <div class="nav-btn dark rounded-circle p-2 pr-3 umr-3">
+        <a href="https://www.instagram.com/jakemitchell.xyz/" target="_blank" rel="noopener"
+           class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('instagram')" @mouseleave="hideTooltip('instagram')">
           <span class="ion-social-instagram-outline"></span>
         </a>
         <!-- Hover Tooltip -->
@@ -32,9 +32,9 @@
       </div>
 
       <!-- Medium Link -->
-      <div class="nav-btn rounded-circle p-2 pr-3 umr-3">
-        <a href="https://medium.com/@jakemitchellxyz" target="_blank" data-toggle="tooltip"
-           class="btn btn-outline-light rounded-circle" rel="noopener" @mouseenter="showTooltip('medium')" @mouseleave="hideTooltip('medium')">
+      <div class="nav-btn dark rounded-circle p-2 pr-3 umr-3">
+        <a href="https://medium.com/@jakemitchellxyz" target="_blank" rel="noopener"
+           class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('medium')" @mouseleave="hideTooltip('medium')">
           <span class="ion-android-list"></span>
         </a>
         <!-- Hover Tooltip -->

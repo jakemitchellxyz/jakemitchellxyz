@@ -5,13 +5,15 @@
   bottom: 0;
   margin-right: 3rem;
   margin-bottom: 1rem;
-  padding-top: 300px;
 
   .nav-btn {
     display: inline-flex !important;
     justify-content: center;
     position: relative;
-    background-color: $dark;
+
+    &.dark {
+      background-color: $dark;
+    }
   }
 
   @media only screen and (max-width: 740px) {
