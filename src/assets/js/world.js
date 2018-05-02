@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { noise } from '@/assets/js/perlin'
 
 const world = (function () {
-  const self = {} // export container
+  const self = { created: false } // export container
 
   // Dimensions of the grid
   const width = 256
@@ -11,7 +11,9 @@ const world = (function () {
 
   // Global variables
   let window,
+      document,
       container,
+      animationId,
       scene,
       camera,
       renderer,
@@ -22,19 +24,15 @@ const world = (function () {
       points,
       clock
 
-  // Helper for grabbing element to append to DOM
-  self.getDomElement = function () {
-    return renderer.domElement
-  }
-
   // Build the Three.js Instance
-  self.build = function (win, document, id) {
+  self.build = function (win, doc, id) {
     // Init Perlin noise
     noise.seed(Math.random())
     clock = new THREE.Clock()
 
-    // save container reference for later
+    // save window & container references for later
     window = win
+    document = doc
     container = document.getElementById(id)
 
     // Init Scene
@@ -59,7 +57,7 @@ const world = (function () {
 		raycaster.params.Points.threshold = threshold
 
     self.populate()
-    self.append()
+    self.created = true
   }
 
   // Draw the objects into our world
@@ -139,20 +137,39 @@ const world = (function () {
 
   // Method called each frame
   self.animate = function () {
-    requestAnimationFrame(self.animate)
+    animationId = requestAnimationFrame(self.animate)
     self.render()
     renderer.render(scene, camera)
   }
 
   // Append to document and setup responsive behaviour
-  self.append = function () {
+  self.append = function (id) {
+    container = document.getElementById(id)
+
     // Add listeners
     window.addEventListener('mousemove', self.onMouseMove)
     window.addEventListener('touchmove', self.onMouseMove)
     window.addEventListener('resize', self.onWindowResize)
 
     // Append THREE.js to our document
-    container.appendChild(self.getDomElement())
+    container.appendChild(renderer.domElement)
+
+    // Start animation sequence
+    self.animate()
+  }
+
+  // Remove listeners and domElement from document (when user leaves page)
+  self.pause = function () {
+    // Remove listeners
+    window.removeEventListener('mousemove', self.onMouseMove)
+    window.removeEventListener('touchmove', self.onMouseMove)
+    window.removeEventListener('resize', self.onWindowResize)
+
+    // Stop animation sequence
+    cancelAnimationFrame(animationId)
+
+    // Remove canvas from document
+    container.innerHTML = ''
   }
 
   // Helper to resize view when window is resized

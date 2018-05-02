@@ -3,16 +3,18 @@
 </template>
 
 <script>
-import World from '@/assets/js/world'
-
 export default {
   name: 'Three',
   mounted() {
-    // Build world and append to page
-    World.build(window, document, 'three')
-
-    // Call first animation frame
-    World.animate()
+    if (!this.$three.created)
+      this.$three.build(window, document, 'three')
+    this.$three.append('three')
+  },
+  beforeDestroy() {
+    setTimeout(() => {
+      if (this.$three.created)
+        this.$three.pause()
+    }, 2000)
   }
 }
 </script>
