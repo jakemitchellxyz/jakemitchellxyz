@@ -10,17 +10,12 @@
   export default {
     name: 'App',
     data() {
-      return {
-        slideDirection: 'slide-up'
-      }
+      return { slideDirection: 'slide-up' }
     },
     watch: {
+      // create dynamic slide direction for page changes
       '$route' (to, from) {
-        if (to.name == 'home') {
-          this.slideDirection = 'slide-down'
-        } else {
-          this.slideDirection = 'slide-up'
-        }
+        this.slideDirection = (to.name === 'home') ? 'slide-down' : 'slide-up'
       }
     }
   }

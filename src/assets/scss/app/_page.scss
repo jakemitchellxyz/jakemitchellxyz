@@ -6,19 +6,32 @@
 
   .page {
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 
     .container {
       height: 100%;
       position: relative;
+      overflow-y: auto;
     }
 
     &.home {
-      overflow: hidden;
       border-radius: 8px;
       background-color: $dark;
       box-shadow: 0 0 20px 1px $dark;
+    }
+
+    &.resume {
+      border-radius: 8px;
+      box-shadow: 0 0 20px 1px lighten($dark, 30%);
+      width: 60%;
+      margin: auto;
+
+      @media only screen and (max-width: $bp-large) {
+        width: 90%;
+      }
+      @media only screen and (max-width: $bp-small) {
+        width: 100%;
+      }
     }
   }
 
@@ -27,11 +40,13 @@
     width: 100%;
   }
 
-  @media only screen and (max-width: 740px) {
+  // Medium width
+  @media only screen and (max-width: $bp-medium) {
     padding: 1rem;
   }
 
-  @media only screen and (max-width: 400px) {
+  // Phone width
+  @media only screen and (max-width: $bp-small) {
     padding: 0.25rem;
   }
 }

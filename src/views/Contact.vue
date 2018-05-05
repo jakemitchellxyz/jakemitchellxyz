@@ -3,9 +3,9 @@
     <div class="page">
       <div class="container">
         <h1>Welcome to the Contact page.</h1>
-
-        <HomeButton />
       </div>
+
+      <HomeButton />
     </div>
   </div>
 </template>

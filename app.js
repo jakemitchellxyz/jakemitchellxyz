@@ -9,8 +9,8 @@ const history = require('connect-history-api-fallback') // reroute all requests 
 const app = express()
 
 // Register middleware
-app.use(compression())
 app.use(helmet())
+app.use(compression())
 app.use(history())
 
 // Listen to the dist folder

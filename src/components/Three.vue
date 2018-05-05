@@ -5,14 +5,14 @@
 <script>
 export default {
   name: 'Three',
-  mounted() {
-    if (!this.$three.created)
+  mounted() { // when home page rendered
+    if (!this.$three.created) // if scene hasn't been built, build it
       this.$three.build(window, document, 'three')
-    this.$three.append('three')
+    this.$three.append('three') // append the existing scene to the page
   },
-  beforeDestroy() {
-    setTimeout(() => {
-      if (this.$three.created)
+  beforeDestroy() { // when home page leaves
+    setTimeout(() => { // after 2 seconds (animation time for page exit)
+      if (this.$three.created) // if the scene has been rendered, pause it
         this.$three.pause()
     }, 2000)
   }
@@ -29,10 +29,10 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-  }
 
-  canvas {
-    width: 100%;
-    height: 100%;
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

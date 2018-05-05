@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-wrapper">
+  <div class="nav-wrapper resume">
     <div class="nav-btn p-2">
       <!-- Back to Home Link -->
       <router-link :to="{ name: 'home' }" class="btn btn-outline-dark rounded-circle" @mouseenter.native="showTooltip()" @mouseleave.native="hideTooltip()">
@@ -9,7 +9,7 @@
       <!-- Hover Tooltip -->
       <transition name="tooltip" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
         <div v-show="showingTooltip" class="tooltip dark animated-fast">
-          Back to Home
+          Home
           <div class="arrow"></div>
         </div>
       </transition>
