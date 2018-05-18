@@ -24,12 +24,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  #resume {
-    canvas {
-      width: auto !important;
-      min-width: 100%;
-    }
-  }
-</style>

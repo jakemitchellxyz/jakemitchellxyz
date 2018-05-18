@@ -18,12 +18,6 @@
   &:hover, &:active {
     text-decoration: none;
   }
-  &:focus {
-    outline: 0;
-    box-shadow: none;
-    border-color: darken($light, 30%);
-    color: darken($light, 30%);
-  }
 
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
@@ -41,6 +35,12 @@
     background-color: $light;
     border-color: $light;
   }
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+    border-color: darken($light, 30%);
+    color: darken($light, 30%);
+  }
 }
 
 .btn-outline-dark {
@@ -53,6 +53,12 @@
     color: $light;
     background-color: $dark;
     border-color: $dark;
+  }
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+    border-color: lighten($dark, 30%);
+    color: lighten($dark, 30%);
   }
 }
 
