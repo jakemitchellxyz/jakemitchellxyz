@@ -1,20 +1,27 @@
-const sqreen = require('sqreen') // App Security Monitoring Plugin
-const newrelic = require('newrelic') // App Performance Monitoring Plugin
+'use strict'
 
 const express = require('express')
 const helmet = require('helmet') // common security setting fixes
 const compression = require('compression') // gz compression
 const history = require('connect-history-api-fallback') // reroute all requests to index.html, for VueJS routing
+const subdomain = require('express-subdomain') // simple subdomain routing
+const bodyparser = require('body-parser') // receive and interpret request content
 
 const app = express()
+const nextmovie = require('./microapps/nextmovie/app.js') // NextMovie Micro App
 
 // Register middleware
 app.use(helmet())
 app.use(compression())
-app.use(history())
+app.use(bodyparser.json())
 
-// Listen to the dist folder
+// Handle all routing
+app.use(subdomain('nextmovie', nextmovie))
 app.use(express.static('dist'))
 
+// Go to index.html for all routes
+app.use(history())
+
 // Turn on server
-app.listen(process.env.PORT, () => console.log('jakemitchell.xyz listening on port ' + process.env.PORT + '!'))
+let port = process.env.PORT || 8080
+app.listen(port, () => console.log('jakemitchell.xyz listening on port ' + port + '!'))
