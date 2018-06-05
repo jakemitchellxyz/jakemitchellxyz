@@ -1,4 +1,11 @@
+const path = require('path')
 const router = require('express').Router()
+const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
+
+// Expose the privacy policy to a public URL
+router.get('/privacy-policy', (req, res) => {
+  res.sendFile(path.join(__dirname + '/privacy-policy.html'))
+})
 
 // Handle GET requests; for verification
 router.get('/webhook', (req, res) => {
