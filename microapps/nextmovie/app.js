@@ -2,6 +2,11 @@ const path = require('path')
 const router = require('express').Router()
 const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
 
+// Expose the terms and conditions to a public URL
+router.get('/terms-and-conditions', (req, res) => {
+  res.sendFile(path.join(__dirname + '/terms-and-conditions.html'))
+})
+
 // Expose the privacy policy to a public URL
 router.get('/privacy-policy', (req, res) => {
   res.sendFile(path.join(__dirname + '/privacy-policy.html'))
