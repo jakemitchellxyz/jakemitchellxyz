@@ -16,8 +16,7 @@ app.use(compression())
 app.use(bodyparser.json())
 
 // Handle all routing
-app.use(nextmovie)
-// app.use(subdomain('nextmovie', nextmovie))
+app.use(subdomain('nextmovie', nextmovie))
 app.use(express.static('dist'))
 
 // Go to index.html for all routes
