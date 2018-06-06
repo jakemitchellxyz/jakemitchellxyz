@@ -2,6 +2,7 @@ const path = require('path')
 const router = require('express').Router()
 const request = require('request')
 const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
+const TMDb_API_KEY = '37ff6f2abae29dd367dc5f3142edbdb8'
 
 // Handles Webhook messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
@@ -14,23 +15,23 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   let request_body = {
-    "recipient": {
-      "id": sender_psid
+    'recipient': {
+      'id': sender_psid
     },
-    "message": response
+    'message': response
   }
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
+    'uri': 'https://graph.facebook.com/v2.6/me/messages',
+    'qs': { 'access_token': PAGE_ACCESS_TOKEN },
+    'method': 'POST',
+    'json': request_body
   }, (err, res, body) => {
     if (!err) {
       console.log('Message sent!')
     } else {
-      console.error("Unable to send message:" + err)
+      console.error('Unable to send message:' + err)
     }
   })
 }
@@ -38,6 +39,22 @@ function callSendAPI(sender_psid, response) {
 // Render view for the chat extension
 router.get('/webview', (req, res) => {
   res.sendFile(path.join(__dirname + '/webview.html'))
+})
+
+// Search api to call TMDb API
+router.get('/search/:query', (req, res) => {
+  request({
+    'uri': 'https://api.themoviedb.org/3/search/movie',
+    'qs': { 'api_key': TMDb_API_KEY, 'query': req.params.query },
+    'method': 'GET'
+  }, (error, response, body) => {
+    if (!error) {
+      console.log(body)
+      res.status(200).send(body)
+    } else {
+      res.status(401).send('Error performing query: ' + error)
+    }
+  })
 })
 
 // Expose the terms and conditions to a public URL

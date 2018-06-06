@@ -7,28 +7,149 @@
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
   </head>
   <body>
-    
+    <!-- Include Messenger Extensions SDK -->
+    <script type="text/javascript">
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
+    </script>
+
+    <!-- Home page of the extension -->
     <template id="main">
+      <v-ons-navigator
+        :page-stack="pageStack"
+        @push-page="pageStack.push($event)"
+      ></v-ons-navigator>
+    </template>
+
+    <!-- Display list of movies -->
+    <template id="current_list">
       <v-ons-page>
-        <p style="text-align: center">
-          <v-ons-button @click="$ons.notification.alert('Hello World!')">
-            Add The Next Movie
-          </v-ons-button>
+        <v-ons-fab position="bottom right" @click="search">
+          <v-ons-icon icon="fa-search"></v-ons-icon>
+        </v-ons-fab>
+      </v-ons-page>
+    </template>
+
+    <!-- Search Page -->
+    <template id="search">
+      <v-ons-page style="text-align: center">
+        <p>
+          <v-ons-search-input placeholder="Search Movies" v-model="query" style="width: 80%"></v-ons-search-input>
         </p>
+
+        <p>{{ feedback }}</p>
+
+        <ul style="margin: 0; padding: 0; list-style-type: none">
+          <v-ons-card v-for="result in results" style="width: 80%; margin-left: auto; margin-right: auto">
+            <img :src="'https://image.tmdb.org/t/p/w154/' + result.backdrop_path" :alt="'No backdrop found for ' + result.title" style="width: 100%">
+            <div class="title">
+              {{ result.title }}
+            </div>
+            <div class="content">
+              <p>{{ result.overview | truncate(200) }}</p>
+              <p style="text-align: right">
+                <v-ons-button @click="suggest(result.title)">Suggest Movie</v-ons-button>
+              </p>
+            </div>
+          </v-ons-card>
+        </ul>
       </v-ons-page>
     </template>
 
     <div id="app"></div>
 
+    <!-- UI and Vue  -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <script src="https://unpkg.com/vue-onsenui@2.6.0/dist/vue-onsenui.js"></script>
     <script type="text/javascript">
+      const search = {
+        key: 'search',
+        template: '#search',
+        data() {
+          return {
+            query: '',
+            results: [],
+            feedback: 'Search for a movie!'
+          }
+        },
+        filters: {
+          truncate (value, length) {
+            let node = document.createElement('div')
+            node.innerHTML = value
+            let content = node.textContent
+            return content.length > length ? content.slice(0, length) + '...' : content
+          }
+        },
+        watch: {
+          query (newQuery) {
+            if (newQuery.length > 4) {
+              this.feedback = 'Waiting for you to stop typing...'
+              this.debouncedSearch()
+            } else {
+              this.feedback = 'Query must be at least 4 characters.'
+            }
+          }
+        },
+        methods: {
+          search() {
+            this.feedback = 'Searching, please wait...'
+            // axios.get('/search/' + this.query.split(' ').join('+'))
+            axios.get('https://nextmovie.jakemitchell.xyz/search/' + this.query.split(' ').join('+'))
+              .then((response) => {
+                this.results = response.data.results
+                this.feedback = response.data.total_results + ' results found.'
+                console.log(this.results)
+              })
+              .catch((error) => {
+                this.feedback = 'Error performing search.'
+                console.log(error)
+              })
+          },
+          suggest(title) {
+            MessengerExtensions.beginShareFlow(
+              function success(response) {
+                if(response.is_sent === true){
+                	// User shared. We're done here!
+                	MessengerExtensions.requestCloseBrowser();
+                }
+              },
+              function error(errorCode, errorMessage) {
+            	// An error occurred trying to share!
+              },
+              'Lets watch ' + title + '!', "current_thread"
+            )
+          }
+        },
+        created() {
+          this.debouncedSearch = _.debounce(this.search, 500)
+        }
+      }
+
+      const current_list = {
+        key: 'current_list',
+        template: '#current_list',
+        methods: {
+          search() {
+            this.$emit('push-page', search)
+          }
+        }
+      }
+
       var app = new Vue({
         el: '#app',
         template: '#main',
-        data: {
-          message: 'Hello Vue!'
+        data() {
+          return {
+            pageStack: [current_list]
+          }
         }
       })
     </script>
