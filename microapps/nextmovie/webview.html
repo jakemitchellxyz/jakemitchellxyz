@@ -53,7 +53,7 @@
             <div class="content">
               <p>{{ result.overview | truncate(200) }}</p>
               <p style="text-align: right">
-                <v-ons-button @click="suggest(result.title, result.poster_path, result.id)">Suggest Movie</v-ons-button>
+                <v-ons-button @click="suggest(result.title, result.backdrop, result.id)">Suggest Movie</v-ons-button>
               </p>
             </div>
           </v-ons-card>
@@ -113,19 +113,19 @@
                 console.log(error)
               })
           },
-          suggest(title, poster, id) {
+          suggest(title, backdrop, id) {
             let message = {
               'attachment': {
                 'type': 'template',
                 'payload': {
-                  'template_type': 'media',
+                  'template_type': 'generic',
                   'elements': [{
-                    'media_type': 'image',
-                    'url': 'https://image.tmdb.org/t/p/w780/' + poster,
+                    'title': title,
+                    'image_url': 'https://image.tmdb.org/t/p/w1280/' + backdrop,
                     'buttons': [{
                       'type': 'web_url',
                       'url': 'https://www.themoviedb.org/movie/' + id,
-                      'title': 'Lets watch ' + title + '!',
+                      'title': 'View Details',
                     }]
                   }]
                 }
@@ -133,12 +133,12 @@
             }
 
             MessengerExtensions.beginShareFlow(
-              function success(response) {
+              (response) => {
                 if (response.is_sent === true) {
                 	MessengerExtensions.requestCloseBrowser()
                 }
               },
-              function error(errorCode, errorMessage) {
+              (errorCode, errorMessage) => {
             	   // An error occurred trying to share!
               },
               message, 'current_thread' )}
