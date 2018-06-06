@@ -46,14 +46,14 @@
 
         <ul style="margin: 0; padding: 0; list-style-type: none">
           <v-ons-card v-for="result in results" style="width: 80%; margin-left: auto; margin-right: auto">
-            <img :src="'https://image.tmdb.org/t/p/w154/' + result.backdrop_path" :alt="'No backdrop found for ' + result.title" style="width: 100%">
+            <img :src="'https://image.tmdb.org/t/p/w300/' + result.backdrop_path" :alt="'No backdrop found for ' + result.title" style="width: 100%">
             <div class="title">
               {{ result.title }}
             </div>
             <div class="content">
               <p>{{ result.overview | truncate(200) }}</p>
               <p style="text-align: right">
-                <v-ons-button @click="suggest(result.title)">Suggest Movie</v-ons-button>
+                <v-ons-button @click="suggest(result.title, result.poster_path, result.id)">Suggest Movie</v-ons-button>
               </p>
             </div>
           </v-ons-card>
@@ -113,20 +113,35 @@
                 console.log(error)
               })
           },
-          suggest(title) {
+          suggest(title, poster, id) {
+            let message = {
+              'attachment': {
+                'type': 'template',
+                'payload': {
+                  'template_type': 'media',
+                  'elements': [{
+                    'media_type': 'image',
+                    'url': 'https://image.tmdb.org/t/p/w780/' + poster,
+                    'buttons': [{
+                      'type': 'web_url',
+                      'url': 'https://www.themoviedb.org/movie/' + id,
+                      'title': 'Lets watch ' + title + '!',
+                    }]
+                  }]
+                }
+              }
+            }
+
             MessengerExtensions.beginShareFlow(
               function success(response) {
-                if(response.is_sent === true){
-                	// User shared. We're done here!
-                	MessengerExtensions.requestCloseBrowser();
+                if (response.is_sent === true) {
+                	MessengerExtensions.requestCloseBrowser()
                 }
               },
               function error(errorCode, errorMessage) {
-            	// An error occurred trying to share!
+            	   // An error occurred trying to share!
               },
-              'Lets watch ' + title + '!', "current_thread"
-            )
-          }
+              message, 'current_thread' )}
         },
         created() {
           this.debouncedSearch = _.debounce(this.search, 500)
