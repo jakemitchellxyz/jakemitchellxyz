@@ -1,6 +1,44 @@
 const path = require('path')
 const router = require('express').Router()
+const request = require('request')
 const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
+
+// Handles Webhook messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+  let payload = received_postback.payload
+  if (payload === 'NEW_USER') {
+    callSendAPI(sender_psid, { 'text': 'Welcome to Next Movie! Start using the extension in one of your chats!' })
+  }
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('Message sent!')
+    } else {
+      console.error("Unable to send message:" + err)
+    }
+  })
+}
+
+// Render view for the chat extension
+router.get('/webview', (req, res) => {
+
+})
 
 // Expose the terms and conditions to a public URL
 router.get('/terms-and-conditions', (req, res) => {
@@ -45,6 +83,12 @@ router.post('/webhook', (req, res) => {
     body.entry.forEach((entry) => {
       let webhook_event = entry.messaging[0]
       console.log(webhook_event)
+
+      // Get the sender PSID
+      let sender_psid = webhook_event.sender.id
+      if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback)
+      }
     })
 
     // Returns a '200 OK' response to all requests
