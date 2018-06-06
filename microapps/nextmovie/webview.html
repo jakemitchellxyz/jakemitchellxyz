@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Next Movie</title>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+  </head>
+  <body>
+    
+    <template id="main">
+      <v-ons-page>
+        <p style="text-align: center">
+          <v-ons-button @click="$ons.notification.alert('Hello World!')">
+            Add The Next Movie
+          </v-ons-button>
+        </p>
+      </v-ons-page>
+    </template>
+
+    <div id="app"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://unpkg.com/vue-onsenui@2.6.0/dist/vue-onsenui.js"></script>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '#app',
+        template: '#main',
+        data: {
+          message: 'Hello Vue!'
+        }
+      })
+    </script>
+  </body>
+</html>

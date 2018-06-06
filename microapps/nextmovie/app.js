@@ -37,7 +37,7 @@ function callSendAPI(sender_psid, response) {
 
 // Render view for the chat extension
 router.get('/webview', (req, res) => {
-
+  res.sendFile(path.join(__dirname + '/webview.html'))
 })
 
 // Expose the terms and conditions to a public URL
