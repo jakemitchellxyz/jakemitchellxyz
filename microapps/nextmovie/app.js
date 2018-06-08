@@ -1,8 +1,16 @@
+const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
+const WEBHOOK_VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN
+const TMDB_API_KEY = process.env.TMDB_API_KEY
+const DATABASE = process.env.DATABASE_URL
+
 const path = require('path')
 const router = require('express').Router()
 const request = require('request')
-const PAGE_ACCESS_TOKEN = process.env.NEXT_MOVIE_PAGE_ACCESS_TOKEN
-const TMDb_API_KEY = '37ff6f2abae29dd367dc5f3142edbdb8'
+const { Pool } = require('pg')
+const pool = new Pool({
+  connectionString: DATABASE,
+  ssl: true
+})
 
 // Handles Webhook messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
@@ -41,18 +49,64 @@ router.get('/webview', (req, res) => {
   res.sendFile(path.join(__dirname + '/webview.html'))
 })
 
+// Get list of movies given thread_id
+router.get('/list/:thread_id', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    const movies = await client.query('SELECT movies FROM lists WHERE thread_id = \'' + req.params.thread_id + '\' LIMIT 1')
+    res.status(200).send(movies)
+    client.release()
+  } catch (err) {
+    res.status(500).send('Error ' + err)
+  }
+})
+
+// Add movie to list
+router.post('/add/:thread_id/:movie_id', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    const movies = await client.query('SELECT movies FROM lists WHERE thread_id = \'' + req.params.thread_id + '\' LIMIT 1')
+    if (movies != null) {
+      let movieData = JSON.parse(movies)
+      movieData.push(req.params.movie_id)
+      const update = await client.query('UPDATE lists SET movies = \'' + JSON.stringify(movieData) + '\' WHERE thread_id = \'' + req.params.thread_id + '\';')
+    } else {
+      let movieData = [ req.params.movie_id ]
+      const update = await client.query('INSERT INTO lists (thread_id, movies) VALUES (\'' + req.params.thread_id + '\', \'' + JSON.stringify(movieData) + '\');')
+    }
+    res.status(200).send('OK')
+    client.release()
+  } catch (err) {
+    res.status(500).send('Error ' + err)
+  }
+})
+
 // Search api to call TMDb API
 router.get('/search/:query', (req, res) => {
   request({
     'uri': 'https://api.themoviedb.org/3/search/movie',
-    'qs': { 'api_key': TMDb_API_KEY, 'query': req.params.query },
+    'qs': { 'api_key': TMDB_API_KEY, 'query': req.params.query },
     'method': 'GET'
   }, (error, response, body) => {
     if (!error) {
-      console.log(body)
       res.status(200).send(body)
     } else {
       res.status(401).send('Error performing query: ' + error)
+    }
+  })
+})
+
+// Details api to call TMDb API
+router.get('/details/:id', (req, res) => {
+  request({
+    'uri': 'https://api.themoviedb.org/3/movie/' + req.params.id,
+    'qs': { 'api_key': TMDB_API_KEY },
+    'method': 'GET'
+  }, (error, response, body) => {
+    if (!error) {
+      res.status(200).send(body)
+    } else {
+      res.status(401).send('Error getting details: ' + error)
     }
   })
 })
@@ -69,8 +123,6 @@ router.get('/privacy-policy', (req, res) => {
 
 // Handle GET requests; for verification
 router.get('/webhook', (req, res) => {
-  let VERIFY_TOKEN = '2Rw36ORU5riic3jsgeUh8C5xdj33Omo2'
-
   // Parse the query params
   let mode = req.query['hub.mode']
   let token = req.query['hub.verify_token']
@@ -79,7 +131,7 @@ router.get('/webhook', (req, res) => {
   // Checks if a token and mode is in the query string of the request
   if (mode && token) {
     // Checks the mode and token sent is correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === WEBHOOK_VERIFY_TOKEN) {
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED')
       res.status(200).send(challenge)

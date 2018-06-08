@@ -26,18 +26,83 @@
       ></v-ons-navigator>
     </template>
 
+    <!-- Movie Details page -->
+    <template id="details">
+      <v-ons-page>
+        <v-ons-toolbar>
+          <div class="left">
+            <v-ons-back-button>Search</v-ons-back-button>
+          </div>
+          <div class="center">{{ detailMovie.title }}</div>
+        </v-ons-toolbar>
+      </v-ons-page>
+    </template>
+
     <!-- Display list of movies -->
     <template id="current_list">
       <v-ons-page>
-        <v-ons-fab position="bottom right" @click="search">
-          <v-ons-icon icon="fa-search"></v-ons-icon>
-        </v-ons-fab>
+        <v-ons-toolbar>
+          <div class="center">Watch List</div>
+          <div class="right">
+            <v-ons-toolbar-button @click="gotoSearch">
+              <v-ons-icon icon="fa-search"></v-ons-icon>
+            </v-ons-toolbar-button>
+          </div>
+        </v-ons-toolbar>
+        <p v-if="loadingList" style="text-align: center">
+          <v-ons-progress-circular indeterminate></v-ons-progress-circular>
+        </p>
+        <template v-else>
+          <template v-if="list.length > 0">
+            <v-ons-card v-for="movie in list" style="width: 80%; margin-left: auto; margin-right: auto">
+              <img v-if="movie.backdrop_path" :src="'https://image.tmdb.org/t/p/original/' + movie.backdrop_path" :alt="'Loading backdrop for ' + movie.title + '...'" style="width: 100%">
+              <div class="title">
+                {{ movie.title }}
+              </div>
+              <div class="content">
+                <p>{{ movie.overview | truncate(200) }}</p>
+
+                <v-ons-row>
+                  <v-ons-col>
+                    <v-ons-button modifier="outline" @click=";">
+                      <v-ons-icon icon="fa-times"></v-ons-icon>
+                    </v-ons-button>
+                  </v-ons-col>
+                  <v-ons-col style="text-align: center">
+                    <v-ons-button modifier="quiet" @click="vm.details(movie.id)">
+                      <template v-if="vm.$data.loadingDetails">
+                        Loading...
+                      </template>
+                      <template v-else>
+                        More Info
+                        <v-ons-icon icon="fa-chevron-down"></v-ons-icon>
+                      </template>
+                    </v-ons-button>
+                  </v-ons-col>
+                  <v-ons-col style="text-align: right">
+                    <v-ons-button @click="vm.suggest(movie.title, movie.backdrop_path, movie.id)">
+                      <v-ons-icon icon="fa-share"></v-ons-icon>
+                    </v-ons-button>
+                  </v-ons-col>
+                </v-ons-row>
+              </div>
+            </v-ons-card>
+          </template>
+          <p v-else style="text-align: center">{{ loadFailStatus }}</p>
+        </template>
       </v-ons-page>
     </template>
 
     <!-- Search Page -->
     <template id="search">
       <v-ons-page style="text-align: center">
+        <v-ons-toolbar>
+          <div class="left">
+            <v-ons-back-button>Watch List</v-ons-back-button>
+          </div>
+          <div class="center">Search</div>
+        </v-ons-toolbar>
+
         <p>
           <v-ons-search-input placeholder="Search Movies" v-model="query" style="width: 80%"></v-ons-search-input>
         </p>
@@ -46,15 +111,36 @@
 
         <ul style="margin: 0; padding: 0; list-style-type: none">
           <v-ons-card v-for="result in results" style="width: 80%; margin-left: auto; margin-right: auto">
-            <img :src="'https://image.tmdb.org/t/p/w300/' + result.backdrop_path" :alt="'No backdrop found for ' + result.title" style="width: 100%">
+            <img v-if="result.backdrop_path" :src="'https://image.tmdb.org/t/p/w300/' + result.backdrop_path" :alt="'Loading backdrop for ' + result.title + '...'" style="width: 100%">
             <div class="title">
               {{ result.title }}
             </div>
             <div class="content">
               <p>{{ result.overview | truncate(200) }}</p>
-              <p style="text-align: right">
-                <v-ons-button @click="suggest(result.title, result.backdrop_path, result.id)">Suggest Movie</v-ons-button>
-              </p>
+
+              <v-ons-row>
+                <v-ons-col>
+                  <v-ons-button modifier="outline" @click="vm.add(result.id)">
+                    <v-ons-icon icon="fa-plus"></v-ons-icon>
+                  </v-ons-button>
+                </v-ons-col>
+                <v-ons-col style="text-align: center">
+                  <v-ons-button modifier="quiet" @click="vm.details(result.id)">
+                    <template v-if="vm.$data.loadingDetails">
+                      Loading...
+                    </template>
+                    <template v-else>
+                      More Info
+                      <v-ons-icon icon="fa-chevron-down"></v-ons-icon>
+                    </template>
+                  </v-ons-button>
+                </v-ons-col>
+                <v-ons-col style="text-align: right">
+                  <v-ons-button @click="vm.suggest(result.title, result.backdrop_path, result.id)">
+                    <v-ons-icon icon="fa-share"></v-ons-icon>
+                  </v-ons-button>
+                </v-ons-col>
+              </v-ons-row>
             </div>
           </v-ons-card>
         </ul>
@@ -70,6 +156,11 @@
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <script src="https://unpkg.com/vue-onsenui@2.6.0/dist/vue-onsenui.js"></script>
     <script type="text/javascript">
+      const details = {
+        key: 'details',
+        template: '#details'
+      }
+
       const search = {
         key: 'search',
         template: '#search',
@@ -89,12 +180,10 @@
           }
         },
         watch: {
-          query (newQuery) {
-            if (newQuery.length > 4) {
+          query (newQuery, oldQuery) {
+            if (newQuery.length > oldQuery.length) {
               this.feedback = 'Waiting for you to stop typing...'
               this.debouncedSearch()
-            } else {
-              this.feedback = 'Query must be at least 4 characters.'
             }
           }
         },
@@ -106,11 +195,87 @@
               .then((response) => {
                 this.results = response.data.results
                 this.feedback = response.data.total_results + ' results found.'
-                console.log(this.results)
               })
               .catch((error) => {
                 this.feedback = 'Error performing search.'
-                console.log(error)
+                console.error(error)
+              })
+          }
+        },
+        created() {
+          this.debouncedSearch = _.debounce(this.search, 500)
+        }
+      }
+
+      const current_list = {
+        key: 'current_list',
+        template: '#current_list',
+        data() {
+          return {
+            loadingList: true,
+            loadFailStatus: '',
+            list: []
+          }
+        },
+        methods: {
+          gotoSearch() {
+            this.$emit('push-page', search)
+          }
+        },
+        created() {
+          this.loadingList = true
+          try {
+            MessengerExtensions.getContext('196722140966868',
+              (thread_context) => {
+                // axios.get('/list/' + thread_context.tid)
+                axios.get('https://nextmovie.jakemitchell.xyz/list/' + thread_context.tid)
+                  .then((response) => {
+                    this.list = response.data
+                    if (!this.list || this.list.length === 0) {
+                      this.loadFailStatus = 'Your List is empty!'
+                    }
+                    this.loadingList = false
+                    console.log(this.list)
+                  })
+                  .catch((error) => {
+                    this.loadFailStatus = 'Your list is empty!'
+                    this.loadingList = false
+                    console.log(error)
+                  })
+              },
+              (error) => {
+                this.loadingList = false
+                this.loadFailStatus = 'Error getting Messenger context.'
+                console.error('Error: ' + error)
+              })
+          } catch {
+            this.loadingList = false
+            this.loadFailStatus = 'Error loading Messenger Extensions.'
+          }
+        }
+      }
+
+      var vm = new Vue({
+        el: '#app',
+        template: '#main',
+        data: {
+          loadingDetails: false,
+          detailMovie: null,
+          pageStack: [current_list]
+        },
+        methods: {
+          details(id) {
+            this.loadingDetails = true
+            // axios.get('/details/' + id)
+            axios.get('https://nextmovie.jakemitchell.xyz/details/' + id)
+              .then((response) => {
+                this.loadingDetails = false
+                this.detailMovie = response.data
+                this.$emit('push-page', details)
+              })
+              .catch((error) => {
+                this.loadingDetails = false
+                console.error(error)
               })
           },
           suggest(title, backdrop, id) {
@@ -132,38 +297,43 @@
               }
             }
 
-            MessengerExtensions.beginShareFlow(
-              (response) => {
-                if (response.is_sent === true) {
-                	MessengerExtensions.requestCloseBrowser()
-                }
-              },
-              (errorCode, errorMessage) => {
-            	   // An error occurred trying to share!
-              },
-              message, 'current_thread' )}
-        },
-        created() {
-          this.debouncedSearch = _.debounce(this.search, 500)
-        }
-      }
-
-      const current_list = {
-        key: 'current_list',
-        template: '#current_list',
-        methods: {
-          search() {
-            this.$emit('push-page', search)
-          }
-        }
-      }
-
-      var app = new Vue({
-        el: '#app',
-        template: '#main',
-        data() {
-          return {
-            pageStack: [current_list]
+            try {
+              MessengerExtensions.beginShareFlow(
+                (response) => {
+                  if (response.is_sent === true) {
+                  	MessengerExtensions.requestCloseBrowser()
+                  }
+                },
+                (errorCode, errorMessage) => {
+                   console.error(errorMessage)
+                },
+                message, 'current_thread'
+              )
+            } catch {
+              this.$ons.notification.toast('Error loading Messenger Extensions.', { timeout: 2000 })
+            }
+          },
+          add(movie_id) {
+            try {
+              MessengerExtensions.getContext('196722140966868',
+                (thread_context) => {
+                  // axios.post('/add/' + thread_context.tid + '/' + movie_id)
+                  axios.post('https://nextmovie.jakemitchell.xyz/add/' + thread_context.tid + '/' + movie_id)
+                    .then((response) => {
+                      this.$ons.notification.toast('Movie Added!', { timeout: 2000 })
+                    })
+                    .catch((error) => {
+                      this.$ons.notification.toast('Error adding movie to your list.', {timeout: 2000})
+                      console.error(error)
+                    })
+                },
+                (error) => {
+                  this.$ons.notification.toast('Error getting Messenger context.', { timeout: 2000 })
+                  console.error('Error: ' + error)
+                })
+            } catch {
+              this.$ons.notification.toast('Error loading Messenger Extensions.', { timeout: 2000 })
+            }
           }
         }
       })
