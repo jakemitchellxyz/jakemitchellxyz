@@ -76,75 +76,46 @@
  * Animations for page transitions *
  ***********************************/
 
-.slide-down-enter-active {
-  animation-name: slideDownGrow;
-}
-.slide-down-leave-active {
-  animation-name: shrinkSlideDown;
-}
-.slide-up-enter-active {
-  animation-name: slideUpGrow;
-}
-.slide-up-leave-active {
-  animation-name: shrinkSlideUp;
-}
+@mixin enter-builder ($start) {
+  0%, 30% {
+    transform: translate3d($start) scale(0.7, 0.7);
+  }
 
-@keyframes slideDownGrow {
- from,
- 30% {
-   transform: translate3d(0, -100%, 0) scale(0.7, 0.7);
- }
+  70% {
+    transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+  }
 
- 70% {
-   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
- }
-
- to {
-   transform: translate3d(0, 0, 0) scale(1, 1);
- }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
 }
 
-@keyframes shrinkSlideDown {
- from {
-   transform: translate3d(0, 0, 0) scale(1, 1);
- }
+@mixin leave-builder ($end) {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
 
- 30% {
-   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
- }
+  30% {
+    transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+  }
 
- 70%,
- to {
-   transform: translate3d(0, 100%, 0) scale(0.7, 0.7);
- }
+  70%, 100% {
+    transform: translate3d($end) scale(0.7, 0.7);
+  }
 }
 
-@keyframes slideUpGrow {
- from,
- 30% {
-   transform: translate3d(0, 100%, 0) scale(0.7, 0.7);
- }
+@each $direction in $slide-directions {
+  @keyframes #{$direction}enter {
+    @include enter-builder(map-get($slide-start-coords, $direction))
+  }
 
- 70% {
-   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
- }
+  @keyframes #{$direction}leave {
+    @include leave-builder(map-get($slide-end-coords, $direction))
+  }
 
- to {
-   transform: translate3d(0, 0, 0) scale(1, 1);
- }
-}
-
-@keyframes shrinkSlideUp {
- from {
-   transform: translate3d(0, 0, 0) scale(1, 1);
- }
-
- 30% {
-   transform: translate3d(0, 0, 0) scale(0.7, 0.7);
- }
-
- 70%,
- to {
-   transform: translate3d(0, -100%, 0) scale(0.7, 0.7);
- }
+  @each $motion in ('enter' 'leave') {
+    .slide-#{$direction}-#{$motion}-active {
+      animation-name: #{$direction}#{$motion};
+    }
+  }
 }

@@ -1,29 +1,27 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import vue from 'vue'
+import router from 'vue-router'
 
-// Views
-import Home from '@/views/Home.vue'
-import About from '@/views/About.vue'
-import Contact from '@/views/Contact.vue'
-import Resume from '@/views/Resume.vue'
+// views
+import home from '@/views/home.vue'
+import about from '@/views/about.vue'
+import contact from '@/views/contact.vue'
+import resume from '@/views/resume.vue'
 
-Vue.use(Router)
+vue.use(router)
 
-// Helper to set page title
-let setTitle = function (to, from, next) {
-  let title = to.meta.title
-  title += (title === '') ? 'Jake Mitchell' : ' \— Jake Mitchell'
-  document.title = title
-
-  next()
-}
-
-export default new Router({
+export default new router({
   mode: 'history',
+  beforeResolve: function (to, from, next) {
+    let title = to.meta.title
+    title += (title === '') ? 'jake mitchell' : ' \— jake mitchell'
+    document.title = title
+
+    next()
+  },
   routes: [
-    { name: 'home', path: '/', component: Home, meta: { title: '' }, beforeEnter: setTitle },
-    { name: 'about', path: '/about', component: About, meta: { title: 'About Me' }, beforeEnter: setTitle },
-    { name: 'contact', path: '/contact', component: Contact, meta: { title: 'Contact' }, beforeEnter: setTitle },
-    { name: 'resume', path: '/resume', component: Resume, meta: { title: 'Resume' }, beforeEnter: setTitle },
+    { name: 'home', path: '/', component: home, meta: { title: '' } },
+    { name: 'about', path: '/about', component: about, meta: { title: 'about me' } },
+    { name: 'contact', path: '/contact', component: contact, meta: { title: 'contact' } },
+    { name: 'resume', path: '/resume', component: resume, meta: { title: 'resume' } },
   ]
 })

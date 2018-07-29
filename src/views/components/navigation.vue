@@ -1,13 +1,13 @@
 <template>
   <div class="nav-wrapper">
     <nav id="nav" class="dropup" @mouseleave="hideDropup()">
-      <!-- Github Link -->
+      <!-- Github link -->
       <div class="nav-btn dark rounded-circle p-2 umr-2">
         <a href="https://github.com/jakemitchellxyz" target="_blank" rel="noopener"
            class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('github')" @mouseleave="hideTooltip('github')">
           <span class="ion-social-github"></span>
         </a>
-        <!-- Hover Tooltip -->
+        <!-- hover tooltip -->
         <transition name="tooltip-github" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
           <div v-show="tooltips.github" class="tooltip animated-fast">
             Github
@@ -16,13 +16,13 @@
         </transition>
       </div>
 
-      <!-- Instagram Link -->
+      <!-- instagram link -->
       <div class="nav-btn dark rounded-circle p-2 pr-3 umr-3">
         <a href="https://www.instagram.com/jakemitchell.xyz/" target="_blank" rel="noopener"
            class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('instagram')" @mouseleave="hideTooltip('instagram')">
           <span class="ion-social-instagram-outline"></span>
         </a>
-        <!-- Hover Tooltip -->
+        <!-- hover tooltip -->
         <transition name="tooltip-instagram" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
           <div v-show="tooltips.instagram" class="tooltip animated-fast">
             Instagram
@@ -31,13 +31,13 @@
         </transition>
       </div>
 
-      <!-- Medium Link -->
+      <!-- Medium link -->
       <div class="nav-btn dark rounded-circle p-2 pr-3 umr-3">
         <a href="https://medium.com/@jakemitchellxyz" target="_blank" rel="noopener"
            class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('medium')" @mouseleave="hideTooltip('medium')">
           <span class="ion-android-list"></span>
         </a>
-        <!-- Hover Tooltip -->
+        <!-- hover tooltip -->
         <transition name="tooltip-medium" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
           <div v-show="tooltips.medium" class="tooltip animated-fast">
             Medium
@@ -46,13 +46,13 @@
         </transition>
       </div>
 
-      <!-- More Popup -->
+      <!-- more popup -->
       <div class="btn-bg rounded-circle p-2 pl-3 d-inline-block">
         <button type="button" class="btn btn-outline-light rounded-circle" @mouseenter="showDropup()" @click="showDropup()">
           <span class="ion-android-more-vertical"></span>
         </button>
 
-        <!-- Page Links -->
+        <!-- page links -->
         <transition name="dropup" enter-active-class="fadeGrowUpLeft" leave-active-class="fadeShrinkDownRight">
           <div v-show="showingDropup" class="dropup-menu animated-fast">
             <router-link :to="{ name: 'about' }" class="dropup-item">About</router-link>
@@ -67,7 +67,7 @@
 
 <script>
   export default {
-    name: 'Navigation',
+    name: 'navigation',
     data() {
       return {
         showingDropup: false,

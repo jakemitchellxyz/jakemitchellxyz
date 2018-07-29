@@ -1,0 +1,21 @@
+$dark: #33333b;
+$light: #f8f9fa;
+$font-family: 'Roboto', sans-serif;
+
+$bp-small: 400px;
+$bp-medium: 740px;
+$bp-large: 870px;
+
+$slide-directions: 'up' 'down' 'left' 'right';
+$slide-start-coords: (
+  up: (0, -100%, 0),
+  down: (0, 100%, 0),
+  left: (-100%, 0, 0),
+  right: (100%, 0, 0)
+);
+$slide-end-coords: (
+  up: (0, 100%, 0),
+  down: (0, -100%, 0),
+  left: (100%, 0, 0),
+  right: (-100%, 0, 0)
+);

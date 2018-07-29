@@ -3,7 +3,7 @@
     <div class="nav-btn p-2">
       <!-- Back to Home Link -->
       <router-link :to="{ name: 'home' }" class="btn btn-outline-dark rounded-circle" @mouseenter.native="showTooltip()" @mouseleave.native="hideTooltip()">
-        <span class="ion-android-arrow-dropdown-circle"></span>
+        <span class="ion-cube"></span>
       </router-link>
 
       <!-- Hover Tooltip -->

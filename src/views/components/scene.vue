@@ -1,26 +1,29 @@
 <template>
-  <div id="three"></div>
+  <div id="scene"></div>
 </template>
 
 <script>
 export default {
-  name: 'Three',
-  mounted() { // when home page rendered
-    if (!this.$three.created) // if scene hasn't been built, build it
-      this.$three.build(window, document, 'three')
-    this.$three.append('three') // append the existing scene to the page
+  name: 'scene',
+  props: {
+    effect: {
+      type: String,
+      required: true
+    }
+  },
+  mounted() { // when page rendered
+    this.$sceneManager.start(document, window, 'scene', this.effect)
   },
   beforeDestroy() { // when home page leaves
     setTimeout(() => { // after 2 seconds (animation time for page exit)
-      if (this.$three.created) // if the scene has been rendered, pause it
-        this.$three.pause()
+      this.$sceneManager.stop(this.effect)
     }, 2000)
   }
 }
 </script>
 
 <style lang="scss">
-  #three {
+  #scene {
     z-index: 0;
     margin: 0;
     padding: 0;

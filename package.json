@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "start": "node app.js",
+    "start": "node deploy.js",
     "postinstall": "npm run build"
   },
   "dependencies": {
@@ -13,7 +13,7 @@
     "connect-history-api-fallback": "^1.5.0",
     "express": "^4.16.3",
     "express-subdomain": "^1.0.5",
-    "helmet": "^3.12.1",
+    "helmet": "^3.13.0",
     "pg": "^7.4.3",
     "request": "^2.87.0",
     "three": "^0.91.0",
@@ -22,9 +22,9 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.15",
-    "@vue/cli-service": "^3.0.0-beta.15",
-    "node-sass": "^4.9.0",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.8",
+    "@vue/cli-service": "^3.0.0-rc.8",
+    "node-sass": "^4.9.2",
     "sass-loader": "^6.0.6",
     "vue-template-compiler": "^2.5.13"
   },
@@ -44,7 +44,7 @@
     "not ie <= 8"
   ],
   "description": "Website of Jake Mitchell",
-  "main": "app.js",
+  "main": "deploy.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"
