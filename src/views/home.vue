@@ -22,13 +22,11 @@
 </template>
 
 <script>
-import scene from '@/views/components/scene.vue'
 import navigation from '@/views/components/navigation.vue'
 
 export default {
   name: 'home',
   components: {
-    'scene': scene,
     'navigation': navigation
   }
 }

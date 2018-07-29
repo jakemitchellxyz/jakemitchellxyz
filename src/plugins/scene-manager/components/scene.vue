@@ -12,11 +12,11 @@ export default {
     }
   },
   mounted() { // when page rendered
-    this.$sceneManager.start(document, window, 'scene', this.effect)
+    this.$scene_manager.start(document, window, 'scene', this.effect)
   },
   beforeDestroy() { // when home page leaves
     setTimeout(() => { // after 2 seconds (animation time for page exit)
-      this.$sceneManager.stop(this.effect)
+      this.$scene_manager.stop(this.effect)
     }, 2000)
   }
 }
