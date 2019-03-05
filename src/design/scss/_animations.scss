@@ -1,0 +1,90 @@
+.animated {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+
+  &.fast {
+    animation-duration: 0.25s;
+  }
+}
+
+/***************************
+ * animations for tooltips *
+ ***************************/
+@keyframes fade_grow_up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 50%, 0) scale(0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+}
+
+.fade-grow-up {
+  animation-name: fade_grow_up;
+}
+
+@keyframes fade_shrink_down {
+ 0% {
+   opacity: 1;
+ }
+
+ 100% {
+   opacity: 0;
+   transform: translate3d(0, 50%, 0) scale(0, 0);
+ }
+}
+
+.fade-shrink-down {
+ animation-name: fade_shrink_down;
+}
+
+/***********************************
+ * animations for page transitions *
+ ***********************************/
+
+@mixin enter-builder ($start) {
+  0%, 30% {
+    transform: translate3d($start) scale(0.7, 0.7);
+  }
+
+  70% {
+    transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+}
+
+@mixin leave-builder ($end) {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+
+  30% {
+    transform: translate3d(0, 0, 0) scale(0.7, 0.7);
+  }
+
+  70%, 100% {
+    transform: translate3d($end) scale(0.7, 0.7);
+  }
+}
+
+@each $direction in $slide-directions {
+  @keyframes #{$direction}_enter {
+    @include enter-builder(map-get($slide-start-coords, $direction))
+  }
+
+  @keyframes #{$direction}_leave {
+    @include leave-builder(map-get($slide-end-coords, $direction))
+  }
+
+  @each $motion in ('enter' 'leave') {
+    .slide-#{$direction}-#{$motion}-active {
+      animation-name: #{$direction}_#{$motion};
+    }
+  }
+}

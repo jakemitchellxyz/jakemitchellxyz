@@ -1,0 +1,52 @@
+{
+  "name": "jakemitchellxyz",
+  "version": "0.4.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "three": "^0.91.0",
+    "vue": "^2.6.8",
+    "vue-pdf": "^3.3.1",
+    "vue-router": "^3.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.1",
+    "@vue/cli-service": "^3.4.1",
+    "eslint": "^5.15.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^6.0.6",
+    "vue-template-compiler": "^2.6.8"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "description": "Website of Jake Mitchell",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"
+  },
+  "author": "Jake Mitchell",
+  "bugs": {
+    "url": "https://github.com/jakemitchellxyz/jakemitchellxyz/issues"
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "extends": "standard",
+    "rules": {
+      "new-cap": "off",
+      "camelcase": "off"
+    }
+}

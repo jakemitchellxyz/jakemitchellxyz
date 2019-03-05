@@ -1,0 +1,62 @@
+.page-padding {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  padding: 3rem;
+
+  .page {
+    position: relative;
+
+    .container {
+      height: 100%;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .thin-display {
+      height: 100%;
+      width: 100%;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+
+      .display-background {
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        border-radius: 4px;
+        background-color: $dark;
+        box-shadow: 1px 2px 6px 0 lighten($dark, 25%);
+      }
+    }
+
+    &.resume {
+      border-radius: 8px;
+      box-shadow: 0 0 20px 1px lighten($dark, 30%);
+      width: 60%;
+      margin: auto;
+
+      @media only screen and (max-width: $bp-large) {
+        width: 90%;
+      }
+      @media only screen and (max-width: $bp-small) {
+        width: 100%;
+      }
+    }
+  }
+
+  &, .page {
+    height: 100%;
+    width: 100%;
+  }
+
+  // Medium width
+  @media only screen and (max-width: $bp-medium) {
+    padding: 1rem;
+  }
+
+  // Phone width
+  @media only screen and (max-width: $bp-small) {
+    padding: 0.25rem;
+  }
+}
