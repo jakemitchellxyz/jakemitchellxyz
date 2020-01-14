@@ -14,7 +14,7 @@
 @import "variables";
 
 // modify app-wide stuff (html,body,etc.)
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,400,800');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,800');
 @import "../fonts/ionicons/import";
 @import "globals";
 @import "util";
@@ -26,5 +26,6 @@
 @import "page";
 @import "title";
 @import "nav";
+@import "contact";
 @import "dropup";
 @import "animations";

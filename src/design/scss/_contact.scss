@@ -1,0 +1,126 @@
+.contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  form {
+    width: 50%;
+    max-width: 450px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .form-group {
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+  .form-section {
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+  }
+}
+
+.submit-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .submit {
+    font-size: 1rem;
+    padding: 6px 12px;
+    color: #7a8294;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #CDD9ED;
+
+    &:hover {
+      cursor: pointer;
+      color: $dark;
+      background: #EEF4FF;
+    }
+    &:focus {
+      background: #EEF4FF;
+      border-color: #275EFE;
+      outline: none;
+    }
+  }
+}
+
+.form-field {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: inherit;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  color: #7a8294;
+  border: 1px solid #CDD9ED;
+  background: #fff;
+  transition: border .3s ease;
+
+  &::placeholder {
+    color: #CBD1DC;
+  }
+  &:focus {
+    outline: none;
+    border-color: #275EFE;
+  }
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  & > span, .form-field {
+    white-space: nowrap;
+    display: block;
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+    &:first-child {
+      border-radius: 6px 0 0 6px;
+    }
+    &:last-child {
+      border-radius: 0 6px 6px 0;
+    }
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+  }
+
+  .form-field {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  & > span {
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 25px;
+    color: #99A3BA;
+    background: #EEF4FF;
+    border: 1px solid #CDD9ED;
+    transition: background .3s ease, border .3s ease, color .3s ease;
+  }
+
+  &:focus-within {
+    & > span {
+      color: #fff;
+      background: #678EFE;
+      border-color: #275EFE;
+    }
+  }
+}
