@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "start": "node deploy.js",
-    "postinstall": "npm run build"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

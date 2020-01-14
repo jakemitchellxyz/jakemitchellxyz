@@ -31,16 +31,16 @@
         </transition>
       </div>
 
-      <!-- Medium link -->
+      <!-- LinkedIn link -->
       <div class="nav-btn dark rounded-circle p-2 pr-3 umr-3">
-        <a href="https://medium.com/@jakemitchellxyz" target="_blank" rel="noopener"
-           class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('medium')" @mouseleave="hideTooltip('medium')">
-          <span class="ion-android-list"></span>
+        <a href="https://www.linkedin.com/in/jakemitchellxyz/" target="_blank" rel="noopener"
+           class="btn btn-outline-light rounded-circle" @mouseenter="showTooltip('linkedin')" @mouseleave="hideTooltip('linkedin')">
+          <span class="ion-social-linkedin"></span>
         </a>
         <!-- hover tooltip -->
-        <transition name="tooltip-medium" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
-          <div v-show="tooltips.medium" class="tooltip animated-fast">
-            Medium
+        <transition name="tooltip-linkedin" enter-active-class="fadeGrowUp" leave-active-class="fadeShrinkDown">
+          <div v-show="tooltips.linkedin" class="tooltip animated-fast">
+            LinkedIn
             <div class="arrow"></div>
           </div>
         </transition>
@@ -74,7 +74,7 @@
         tooltips: {
           github: false,
           instagram: false,
-          medium: false
+          linkedin: false
         }
       }
     },

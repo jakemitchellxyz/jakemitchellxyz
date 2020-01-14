@@ -1,0 +1,76 @@
+.title {
+  position: absolute;
+  z-index: 10;
+  padding-top: 2rem;
+  width: 40%;
+  margin: 20px 30%;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 20px 1px $dark;
+
+  .border-line {
+    border-top: 1px solid rgba(0,0,0,0.4);
+    width: 12rem;
+
+    // Large width
+    @media only screen and (max-width: $bp-large) {
+      width: 8rem;
+    }
+  }
+
+  & > .top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .face {
+    width: 150px;
+    height: 150px;
+    flex-basis: 0;
+  }
+
+  .quote {
+    text-align: left;
+    box-shadow: -10px 0px 10px -10px rgba(45, 45, 45, 0.2);
+    border-radius: 8px;
+    padding-left: 1em;
+  }
+
+  .muted {
+    color: rgba(0,0,0,0.8);
+  }
+
+  p {
+    font-weight: 400;
+    color: $dark;
+  }
+
+  a {
+    color: $dark;
+    font-weight: 400;
+    text-decoration: none;
+
+    &:hover {
+      font-weight: 800;
+    }
+  }
+
+  // Large width
+  @media only screen and (max-width: $bp-large) {
+    width: 60%;
+    margin: 20px 20%;
+  }
+
+  // Medium width
+  @media only screen and (max-width: $bp-medium) {
+    width: 80%;
+    margin: 20px 10%;
+  }
+
+  // Phone width
+  @media only screen and (max-width: $bp-small) {
+    width: 95%;
+    margin: 20px 2.5%;
+  }
+}
