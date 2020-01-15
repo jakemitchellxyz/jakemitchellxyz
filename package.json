@@ -42,7 +42,6 @@
     "not ie <= 8"
   ],
   "description": "Website of Jake Mitchell",
-  "main": "deploy.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"

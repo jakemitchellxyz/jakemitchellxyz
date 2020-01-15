@@ -55,7 +55,7 @@
         <!-- page links -->
         <transition name="dropup" enter-active-class="fadeGrowUpLeft" leave-active-class="fadeShrinkDownRight">
           <div v-show="showingDropup" class="dropup-menu animated-fast">
-            <router-link :to="{ name: 'about' }" class="dropup-item">About</router-link>
+            <!-- <router-link :to="{ name: 'about' }" class="dropup-item">About</router-link> -->
             <router-link :to="{ name: 'resume' }" class="dropup-item">Resume</router-link>
             <router-link :to="{ name: 'contact' }" class="dropup-item">Contact</router-link>
           </div>
