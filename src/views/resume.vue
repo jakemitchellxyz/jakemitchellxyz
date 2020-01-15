@@ -3,7 +3,7 @@
     <div class="page resume">
       <div class="container">
         <div id="resume">
-          <pdf src="/resumes/February_2018_techy.pdf" />
+          <pdf src="/resumes/January_2020.pdf" />
         </div>
       </div>
 
