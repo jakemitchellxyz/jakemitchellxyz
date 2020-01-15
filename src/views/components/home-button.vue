@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-wrapper resume">
+  <div class="nav-wrapper">
     <div class="nav-btn p-2">
       <!-- Back to Home Link -->
       <router-link :to="{ name: 'home' }" class="btn btn-outline-dark rounded-circle" @mouseenter.native="showTooltip()" @mouseleave.native="hideTooltip()">

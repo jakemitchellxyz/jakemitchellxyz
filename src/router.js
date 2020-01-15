@@ -5,7 +5,7 @@ import router from 'vue-router'
 import home from '@/views/home.vue'
 // import about from '@/views/about.vue'
 import contact from '@/views/contact.vue'
-import resume from '@/views/resume.vue'
+// import resume from '@/views/resume.vue'
 
 vue.use(router)
 
@@ -22,6 +22,6 @@ export default new router({
     { name: 'home', path: '/', component: home, meta: { title: '' } },
     // { name: 'about', path: '/about', component: about, meta: { title: 'about me' } },
     { name: 'contact', path: '/contact', component: contact, meta: { title: 'contact' } },
-    { name: 'resume', path: '/resume', component: resume, meta: { title: 'resume' } },
+    // { name: 'resume', path: '/resume', component: resume, meta: { title: 'resume' } },
   ]
 })

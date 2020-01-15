@@ -1,22 +1,27 @@
 {
+  "version": "0.4.0",
   "name": "jakemitchellxyz",
-  "version": "0.3.0",
+  "description": "Website of Jake Mitchell",
   "private": true,
+  "author": {
+    "name": "Jake Mitchell",
+    "email": "jake@jakemitchell.xyz",
+    "url": "https://jakemitchell.xyz/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jakemitchellxyz/jakemitchellxyz/issues"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "connect-history-api-fallback": "^1.5.0",
-    "express": "^4.16.3",
-    "express-subdomain": "^1.0.5",
-    "helmet": "^3.13.0",
-    "pg": "^7.4.3",
-    "request": "^2.87.0",
     "three": "^0.91.0",
     "vue": "^2.5.13",
-    "vue-pdf": "^3.3.1",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -40,14 +45,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "description": "Website of Jake Mitchell",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jakemitchellxyz/jakemitchellxyz.git"
-  },
-  "author": "Jake Mitchell",
-  "bugs": {
-    "url": "https://github.com/jakemitchellxyz/jakemitchellxyz/issues"
-  }
+  ]
 }
