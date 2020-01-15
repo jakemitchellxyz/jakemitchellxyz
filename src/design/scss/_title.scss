@@ -42,17 +42,17 @@
   }
 
   p {
-    font-weight: 400;
+    font-weight: 300;
     color: $dark;
   }
 
   a {
     color: $dark;
-    font-weight: 400;
+    font-weight: 300;
     text-decoration: none;
 
     &:hover {
-      font-weight: 800;
+      font-weight: 400;
     }
   }
 
