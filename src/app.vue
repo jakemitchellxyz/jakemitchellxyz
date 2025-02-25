@@ -7,9 +7,6 @@
 </template>
 
 <script>
-  console.log('%c I built this site using Vue <https://vuejs.org/> and Three.js <https://threejs.org/> if that helps.', 'color: darkorange')
-  console.log('%c Also, fact that you\'re reading this makes me curious about you. Reach out to me, please.', 'color: darkorange')
-
   export default {
     name: 'app',
     data() {

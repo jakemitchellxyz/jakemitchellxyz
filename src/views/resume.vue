@@ -3,11 +3,7 @@
     <div class="page resume">
       <div class="container">
         <div id="resume">
-          <pdf src="/resumes/January_2020.pdf">
-            <template slot="loading">
-              retrieving my resume, one moment...
-            </template>
-          </pdf>
+          <pdf src="/resumes/February_2018_techy.pdf" />
         </div>
       </div>
 
@@ -17,7 +13,7 @@
 </template>
 
 <script>
-import pdf from 'pdfvuer'
+import pdf from 'vue-pdf'
 import homeButton from '@/views/components/home-button.vue'
 
 export default {
